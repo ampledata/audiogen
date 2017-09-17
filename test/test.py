@@ -1,12 +1,12 @@
 # coding=utf8
 
 import audiogen
-from itertools import izip_longest
+from itertools import zip_longest
 
 unit = audiogen.util.constant(1)
 
 def setup_mux():
-	return audiogen.util.mixer((iter(range(10)),), ((unit,),(unit,)))
+	return audiogen.util.mixer((iter(list(range(10))),), ((unit,),(unit,)))
 
 def test_mux_output_channels():
 	output = setup_mux()
@@ -18,9 +18,9 @@ def test_mux_duplicated_content():
 
 	# print out first for debugging if test fails
 	for num, channel in enumerate(saved):
-		print("Channel {}: {}".format(num, ", ".join([str(c) for c in channel])))
+		print(("Channel {}: {}".format(num, ", ".join([str(c) for c in channel]))))
 
 	for channel in saved:
-		for sample, test in izip_longest(channel, range(10)):
+		for sample, test in zip_longest(channel, list(range(10))):
 			assert(sample == test)
 
