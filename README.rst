@@ -1,41 +1,41 @@
 Audiogen
-========
+== == == ==
 
 The ``audiogen`` package provides time domain audio processing tools
-using Python generators. 
+using Python generators.
 
-This makes some types of audio sample generation and processing pretty 
-easy::
+This makes some types of audio sample generation and processing pretty
+easy: :
 
 	# mix 440 Hz and 445 Hz tones to get 5 Hz beating
 	beats = audiogen.mixer(
 		(audiogen.tone(440), audiogen.tone(445)),
-		[(constant(1), constant(1)),]
+		[(constant(1), constant(1)), ]
 	)
 
-The actual samples won't be generated or stored in memory until they're 
-actually consumed – for instance, when they're being written out to disk 
-in a wave \file::
+The actual samples won't be generated or stored in memory until they're
+actually consumed – for instance, when they're being written out to disk
+in a wave \file: :
 
     with open("output.wav", "wb") as f:
         audiogen.sampler.write_wav(f, beats)
 
-Generators' at-consumption-time computation also allows creating 
+Generators' at - consumption - time computation also allows creating
 infinitely long output, e.g. to stream to speakers rather than a file on
-disk::
+disk: :
 
     audiogen.sampler.write_wav(sys.stdout, audiogen.tone(440))
 
-Or just::
+Or just: :
 
     audiogen.sampler.play(audiogen.tone(440))
 
-You can also use standard generator tools, e.g. the itertools module, to 
-handle audio data::
+You can also use standard generator tools, e.g. the itertools module, to
+handle audio data: :
 
 	beep_silence = itertools.chain(audiogen.beep(), audiogen.silence(0.5))
 	infinite_beeps = itertools.cycle(beep_silence)
-    
+
     audiogen.sampler.write_wav(sys.stdout, infinite_beeps)
 	
 Soundcard output
